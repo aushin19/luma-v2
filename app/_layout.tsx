@@ -3,11 +3,11 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import { Platform } from "react-native";
+import { Platform, StatusBar } from "react-native";
 import { ErrorBoundary } from "./error-boundary";
+import { colors } from "@/constants/colors";
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: "(tabs)",
 };
 
@@ -38,6 +38,10 @@ export default function RootLayout() {
 
   return (
     <ErrorBoundary>
+      <StatusBar 
+        barStyle="dark-content" 
+        backgroundColor={colors.background} 
+      />
       <RootLayoutNav />
     </ErrorBoundary>
   );
@@ -45,9 +49,63 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors.background,
+        },
+        headerTintColor: colors.text.primary,
+        headerTitleStyle: {
+          fontWeight: '600',
+        },
+        contentStyle: {
+          backgroundColor: colors.background,
+        },
+      }}
+    >
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+      <Stack.Screen 
+        name="(auth)/login" 
+        options={{ 
+          headerShown: false,
+          presentation: 'modal',
+        }} 
+      />
+      <Stack.Screen 
+        name="(auth)/signup" 
+        options={{ 
+          headerShown: false,
+          presentation: 'modal',
+        }} 
+      />
+      <Stack.Screen 
+        name="product/[id]" 
+        options={{ 
+          title: 'Product Details',
+          headerBackTitleVisible: false,
+        }} 
+      />
+      <Stack.Screen 
+        name="category/[id]" 
+        options={{ 
+          title: 'Category',
+          headerBackTitleVisible: false,
+        }} 
+      />
+      <Stack.Screen 
+        name="search" 
+        options={{ 
+          title: 'Search',
+          headerBackTitleVisible: false,
+        }} 
+      />
+      <Stack.Screen 
+        name="checkout" 
+        options={{ 
+          title: 'Checkout',
+          headerBackTitleVisible: false,
+        }} 
+      />
     </Stack>
   );
 }
